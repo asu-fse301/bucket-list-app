@@ -55,7 +55,6 @@ class AddItem extends React.Component {
             date={this.state.date}
             onDateChange={date => this.setState(() => ({ date }))}
           />
-          <Text>Some stufff</Text>
         </View>
         <View style={styles.switchView}>
           <Text style={{ color: 'grey' }}>Share with community</Text>
