@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, ScrollView, Text, View } from 'react-native';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import { Feather as FeatherIcon } from '@expo/vector-icons';
 
 class BucketList extends React.Component {
   state = { items: [] };

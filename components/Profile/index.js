@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import { Feather as FeatherIcon } from '@expo/vector-icons';
 import MemberInfo from './MemberInfo';
 import Screen from '../Screen';
 

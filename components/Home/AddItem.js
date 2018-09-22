@@ -13,9 +13,7 @@ class AddItem extends React.Component {
   state = {
     date: new Date(),
     location: '',
-    gender: null,
     name: '',
-    notifications: true,
     private: true,
   };
 
