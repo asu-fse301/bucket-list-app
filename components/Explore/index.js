@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, FlatList } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as FontAwesomeIcon } from '@expo/vector-icons';
 import Tile from './Tile';
 import tileItems from './assets/tile-items';
 import AddItem from '../Home/AddItem';
