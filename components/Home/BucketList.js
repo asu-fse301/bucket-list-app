@@ -1,32 +1,67 @@
 import React from 'react';
-import { Button, ScrollView, Text, View } from 'react-native';
-import { Feather as FeatherIcon } from '@expo/vector-icons';
+import { Button, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Entypo as EntypoIcon,
+  Feather as FeatherIcon,
+} from '@expo/vector-icons';
 
 class BucketList extends React.Component {
   state = { items: [] };
 
-  componentDidMount() {
+  componentDidUpdate(prevProps) {
     const { navigation } = this.props;
 
-    if (navigation.getParam('bucketListItems')) {
-      this.setState(() => ({
-        items: [...navigation.getParam('bucketListItems')],
-      }));
-    }
-  }
-
-  componentDidUpdate() {
-    const { navigation } = this.props;
-
-    if (navigation.getParam('bucketListItems')) {
-      this.setState(() => ({
-        items: [...navigation.getParam('bucketListItems')],
-      }));
+    if (
+      !!navigation.getParam('item') &&
+      !prevProps.navigation.getParam('item')
+    ) {
+      this.setState(
+        ({ items }) => ({
+          items: [...items, navigation.getParam('item')],
+        }),
+        () =>
+          navigation.setParams({
+            item: null,
+            totalItems: this.state.items.length,
+          })
+      );
     }
   }
 
   addItem = () => {
     this.props.navigation.navigate('AddItem');
+  };
+
+  renderItems = () => {
+    return (
+      <ScrollView style={{ width: '100%' }}>
+        {this.state.items.map((item, index) => (
+          <TouchableOpacity
+            key={`item-${index}`}
+            style={{
+              backgroundColor: 'white',
+              borderColor: 'lightgrey',
+              borderLeftColor: 'transparent',
+              borderRightColor: 'transparent',
+              borderWidth: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: 4,
+              width: '100%',
+            }}
+          >
+            <View style={{ flexDirection: 'column' }}>
+              <Text style={{ fontSize: 24 }}>{item.name}</Text>
+              <Text style={{ color: 'grey', fontSize: 12 }}>
+                {item.date.toLocaleDateString()}
+              </Text>
+            </View>
+            <EntypoIcon name="chevron-thin-right" size={24} color="grey" />
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    );
   };
 
   renderZeroContentPlaceHolder = () => {
@@ -51,9 +86,9 @@ class BucketList extends React.Component {
   };
 
   render() {
-    if (!this.state.items.length) return this.renderZeroContentPlaceHolder();
-
-    return <ScrollView style={{ flex: 1 }} />;
+    return this.state.items.length
+      ? this.renderItems()
+      : this.renderZeroContentPlaceHolder();
   }
 }
 

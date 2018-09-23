@@ -5,9 +5,7 @@ import { Feather as FeatherIcon } from '@expo/vector-icons';
 import AddItem from './AddItem';
 import BucketList from './BucketList';
 
-const Home = ({ navigation }) => (
-  <BucketList navigation={navigation} />
-);
+const Home = ({ navigation }) => <BucketList navigation={navigation} />;
 
 const AddItemButton = ({ navigation }) => (
   <TouchableOpacity
@@ -21,10 +19,11 @@ const AddItemButton = ({ navigation }) => (
 const HomeStack = createStackNavigator(
   {
     Home: {
-      // todo show conditionally based on whether the list is empty
-      // navigationOptions: ({ navigation }) => ({
-      //   headerRight: <AddItemButton navigation={navigation} />,
-      // }),
+      navigationOptions: ({ navigation }) => ({
+        headerRight: navigation.getParam('totalItems') && (
+          <AddItemButton navigation={navigation} />
+        ),
+      }),
       screen: Home,
     },
     AddItem,
