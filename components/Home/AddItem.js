@@ -11,6 +11,7 @@ import {
 
 class AddItem extends React.Component {
   state = {
+    completed: false,
     date: new Date(),
     location: '',
     name: '',
