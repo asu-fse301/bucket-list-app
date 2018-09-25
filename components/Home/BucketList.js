@@ -1,33 +1,13 @@
 import React from 'react';
 import { Button, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import {
   Entypo as EntypoIcon,
   Feather as FeatherIcon,
 } from '@expo/vector-icons';
 
 class BucketList extends React.Component {
-  state = { items: [] };
-
-  componentDidUpdate(prevProps) {
-    const { navigation } = this.props;
-
-    if (
-      !!navigation.getParam('item') &&
-      !prevProps.navigation.getParam('item')
-    ) {
-      this.setState(
-        ({ items }) => ({
-          items: [...items, navigation.getParam('item')],
-        }),
-        () =>
-          navigation.setParams({
-            item: null,
-            totalItems: this.state.items.length,
-          })
-      );
-    }
-  }
-
   addItem = () => {
     this.props.navigation.navigate('AddItem');
   };
@@ -35,7 +15,7 @@ class BucketList extends React.Component {
   renderItems = () => {
     return (
       <ScrollView style={{ width: '100%' }}>
-        {this.state.items.map((item, index) => (
+        {this.props.items.map((item, index) => (
           <TouchableOpacity
             key={`item-${index}`}
             style={{
@@ -86,10 +66,14 @@ class BucketList extends React.Component {
   };
 
   render() {
-    return this.state.items.length
+    return this.props.items.length
       ? this.renderItems()
       : this.renderZeroContentPlaceHolder();
   }
 }
 
-export default BucketList;
+export default compose(
+  connect(({ items }) => ({
+    items,
+  }))
+)(BucketList);
