@@ -1,5 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from 'react-navigation';
+import { Provider } from 'react-redux';
+import store from './store';
 import Explore from './components/Explore';
 import Home from './components/Home';
 import Profile from './components/Profile';
@@ -38,7 +40,11 @@ class TabsContainer extends React.Component {
   };
 
   render() {
-    return <SimpleTabs navigation={this.props.navigation} />;
+    return (
+      <Provider store={store}>
+        <SimpleTabs navigation={this.props.navigation} />
+      </Provider>
+    );
   }
 }
 

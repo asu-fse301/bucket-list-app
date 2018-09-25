@@ -8,6 +8,8 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { addItem } from '../../actions';
 
 class AddItem extends React.Component {
   state = {
@@ -25,6 +27,13 @@ class AddItem extends React.Component {
       this.setState(() => ({ ...navigation.getParam('item') }));
     }
   }
+
+  addItem = () => {
+    const { dispatch, navigation } = this.props;
+
+    dispatch(addItem(this.state));
+    navigation.navigate('Home');
+  };
 
   render() {
     return (
@@ -64,12 +73,7 @@ class AddItem extends React.Component {
             value={this.state.private}
           />
         </View>
-        <Button
-          onPress={() =>
-            this.props.navigation.navigate('Home', { item: this.state })
-          }
-          title="Add Item"
-        />
+        <Button onPress={this.addItem} title="Add Item" />
       </View>
     );
   }
@@ -92,4 +96,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddItem;
+export default connect()(AddItem);
