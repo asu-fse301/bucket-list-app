@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 const Tile = ({ item: { location, source, title }, navigation }) => (
   <ImageBackground
@@ -18,6 +19,15 @@ const Tile = ({ item: { location, source, title }, navigation }) => (
       onPress={() =>
         navigation.navigate('ExploreAddItem', {
           item: { location, source, name: title },
+          resetAction: StackActions.reset({
+            index: 0,
+            key: null,
+            actions: [
+              NavigationActions.navigate({
+                routeName: 'Explore',
+              }),
+            ],
+          }),
         })
       }
       style={{

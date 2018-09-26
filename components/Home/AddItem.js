@@ -30,8 +30,12 @@ class AddItem extends React.Component {
 
   addItem = () => {
     const { dispatch, navigation } = this.props;
+    const resetAction = navigation.getParam('resetAction');
 
     dispatch(addItem(this.state));
+
+    !!resetAction && navigation.dispatch(resetAction);
+
     navigation.navigate('Home');
   };
 
