@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 import { Feather as FeatherIcon } from '@expo/vector-icons';
 import AddItem from './AddItem';
 import BucketList from './BucketList';
+import ViewItem from './ViewItem';
 
 const Home = ({ navigation }) => <BucketList navigation={navigation} />;
 
@@ -27,6 +28,7 @@ const HomeStack = createStackNavigator(
       screen: Home,
     },
     AddItem,
+    ViewItem,
   },
   {
     navigationOptions: {

@@ -9,7 +9,15 @@ import {
 
 class BucketList extends React.Component {
   addItem = () => {
-    this.props.navigation.navigate('AddItem');
+    const { navigation } = this.props;
+
+    navigation.navigate('AddItem');
+  };
+
+  viewItem = ({ index, item }) => {
+    const { navigation } = this.props;
+
+    navigation.navigate('ViewItem', { index, item });
   };
 
   renderItems = () => {
@@ -18,6 +26,7 @@ class BucketList extends React.Component {
         {this.props.items.map((item, index) => (
           <TouchableOpacity
             key={`item-${index}`}
+            onPress={() => this.viewItem({ index, item })}
             style={{
               backgroundColor: 'white',
               borderColor: 'lightgrey',
