@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Button, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -7,8 +7,6 @@ import { Feather as FeatherIcon } from '@expo/vector-icons';
 import AddItem from './AddItem';
 import BucketList from './BucketList';
 import ViewItem from './ViewItem';
-
-const Home = ({ navigation }) => <BucketList navigation={navigation} />;
 
 const AddItemButton = connect(compose(({ items }) => ({ items })))(
   ({ items, navigation }) =>
@@ -25,13 +23,27 @@ const AddItemButton = connect(compose(({ items }) => ({ items })))(
 const HomeStack = createStackNavigator(
   {
     Home: {
-      navigationOptions: ({ items, navigation }) => ({
+      navigationOptions: ({ navigation }) => ({
         headerRight: <AddItemButton navigation={navigation} />,
       }),
-      screen: Home,
+      screen: BucketList,
     },
     AddItem,
-    ViewItem,
+    ViewItem: {
+      navigationOptions: ({ navigation }) => ({
+        headerRight: !navigation.getParam('editable') && (
+          <Button
+            onPress={() =>
+              navigation.setParams({
+                editable: true,
+              })
+            }
+            title="Edit"
+          />
+        ),
+      }),
+      screen: ViewItem,
+    },
   },
   {
     navigationOptions: {

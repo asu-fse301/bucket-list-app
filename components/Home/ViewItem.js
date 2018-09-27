@@ -1,9 +1,15 @@
 import React from 'react';
-import { Alert, Button, Text, View } from 'react-native';
+import { Alert, Button, TextInput, View } from 'react-native';
 import { connect } from 'react-redux';
-import { completeItem, removeItem } from '../../redux/actions';
+import { completeItem, removeItem, updateItem } from '../../redux/actions';
 
 class ViewItem extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = props.navigation.getParam('item');
+  }
+
   handleComplete = () => {
     const { dispatch, navigation } = this.props;
 
@@ -42,20 +48,61 @@ class ViewItem extends React.Component {
     );
   };
 
-  render() {
-    const { completed, date, location, name } = this.props.navigation.getParam(
-      'item'
+  handleCancel = () => {
+    const { navigation } = this.props;
+    this.setState(navigation.getParam('item'), () =>
+      navigation.setParams({ editable: false })
     );
+  };
 
-    return (
+  handleSave = () => {
+    const { dispatch, navigation } = this.props;
+
+    dispatch(
+      updateItem({ index: navigation.getParam('index'), item: this.state })
+    );
+    navigation.navigate('Home');
+  };
+
+  renderButtons = () => {
+    const { navigation } = this.props;
+    const { completed } = this.state;
+    const editable = navigation.getParam('editable');
+
+    return editable ? (
       <View>
-        <Text children={name} />
-        <Text children={location} />
-        <Text children={date.toLocaleDateString()} />
+        <Button onPress={this.handleSave} title="Save" />
+        <Button color="tomato" onPress={this.handleCancel} title="Cancel" />
+      </View>
+    ) : (
+      <View>
         {!completed && (
           <Button onPress={this.handleComplete} title="Complete" />
         )}
         <Button color="tomato" onPress={this.handleRemove} title="Remove" />
+      </View>
+    );
+  };
+
+  render() {
+    const { navigation } = this.props;
+    const { date, location, name } = this.state;
+    const editable = navigation.getParam('editable');
+
+    return (
+      <View>
+        <TextInput
+          editable={editable}
+          onChangeText={name => this.setState({ name })}
+          value={name}
+        />
+        <TextInput
+          editable={editable}
+          onChangeText={location => this.setState({ location })}
+          value={location}
+        />
+        <TextInput value={date.toLocaleDateString()} />
+        {this.renderButtons()}
       </View>
     );
   }
