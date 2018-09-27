@@ -17,7 +17,7 @@ class BucketList extends React.Component {
   viewItem = ({ index, item }) => {
     const { navigation } = this.props;
 
-    navigation.navigate('ViewItem', { index, item });
+    navigation.navigate('ViewItem', { editable: false, index, item });
   };
 
   renderItems = () => {

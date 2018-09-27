@@ -18,6 +18,12 @@ const items = (state = [], action) => {
         ...state.slice(0, action.index),
         ...state.slice(action.index + 1),
       ];
+    case actionTypes.UPDATE_ITEM:
+      return [
+        ...state.slice(0, action.index),
+        action.item,
+        ...state.slice(action.index + 1),
+      ];
     default:
       return state;
   }
